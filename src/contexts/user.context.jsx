@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import {
   onAuthStateChangedListener,
   signOutUser,
+  createUserDocument,
 } from "../utils/firebase/firebase.utils";
 
 // the  actual value that you want to access
@@ -16,6 +17,9 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
+      if (user) {
+        createUserDocument(user);
+      }
       console.log(user);
       setCurrentUser(user);
     });
